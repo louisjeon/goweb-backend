@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    `mongodb+srv://admin:3rIqjfTuf6UCaBYQ@bike-web.focyt.mongodb.net/?retryWrites=true&w=majority&appName=bike-web`
+    `mongodb+srv://goweb:nOurSuxND0stuSKN@cluster0.nv82m.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
   )
   .then(() => {
     console.log("mongodb connected");
