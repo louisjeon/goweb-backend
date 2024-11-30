@@ -10,11 +10,7 @@ const postRoutes = require("./routes/post.routes"); // 게시글 라우트
 const app = express();
 
 // Middleware
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
