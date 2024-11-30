@@ -13,11 +13,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["127.0.0.1:3000"],
+    origin: "*",
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH", "OPTIONS"],
   })
 );
-
+app.options("*", cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
