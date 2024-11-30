@@ -12,11 +12,8 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["127.0.0.1:3000"],
-    optionsSuccessStatus: 200,
-    credentials: true,
+    origin: "*",
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH", "OPTIONS"],
-    preflightContinue: false,
   })
 );
 app.use(express.json());
