@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 
 const User = require("./models/users.model");
 const postRoutes = require("./routes/post.routes"); // 게시글 라우트
+const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트 추가
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.post("/signup", async (req, res) => {
 });
 
 app.use("/posts", postRoutes); // 게시글 라우트 추가
+app.use("/comments", commentRoutes);
 
 // 404 에러 처리
 app.use((req, res, next) => {

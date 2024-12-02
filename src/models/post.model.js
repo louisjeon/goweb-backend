@@ -12,10 +12,16 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId, // user.model
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment", // 댓글 참조
+      },
+    ],
   },
   {
     timestamps: true,
