@@ -9,13 +9,18 @@ const postRoutes = require("./routes/post.routes"); // 게시글 라우트
 
 const app = express();
 
-// Middleware
+// CORS 설정
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://goweb-backend.vercel.app"], // 허용할 출처
+  methods: "GET,POST,PUT,DELETE,OPTIONS", // 허용할 HTTP 메서드
+  allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
+};
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+// CORS 미들웨어 설정 (한 번만 적용)
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Preflight 요청 처리
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
@@ -25,7 +30,7 @@ const username = process.env.DB_USERNAME;
 const password = process.env.DB_PW;
 const baseUri = process.env.SERVER_URI;
 
-// connet DB
+// MongoDB 연결
 const uri = baseUri
   .replace("<username>", username)
   .replace("<password>", password);
