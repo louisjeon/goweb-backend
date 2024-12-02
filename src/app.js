@@ -4,9 +4,9 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 
-const User = require("./models/users.model");
+const userRoutes = require("./routes/user.routes"); // 유저 라우트
 const postRoutes = require("./routes/post.routes"); // 게시글 라우트
-const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트 추가
+const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트
 
 const app = express();
 
@@ -50,19 +50,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the API!" });
 });
 
-app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
-  try {
-    await user.save();
-    res.status(200).json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ success: false, error: "Signup failed" });
-  }
-});
-
+app.use("/users", userRoutes); // 유저 라우트 추가
 app.use("/posts", postRoutes); // 게시글 라우트 추가
-app.use("/comments", commentRoutes);
+app.use("/comments", commentRoutes); // 댓글 라우트 추가
 
 // 404 에러 처리
 app.use((req, res, next) => {
