@@ -12,7 +12,7 @@ const app = express();
 
 // CORS 설정
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://goweb-backend.vercel.app"], // 허용할 출처
+  origin: ["http://localhost:3000", "https://goweb-front.vercel.app"], // 허용할 출처
   methods: "GET,POST,PUT,DELETE,OPTIONS", // 허용할 HTTP 메서드
   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
 };
