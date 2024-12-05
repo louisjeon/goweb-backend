@@ -26,7 +26,7 @@ app.options("*", cors(corsOptions)); // Preflight 요청 처리
 
 // Middleware
 app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
 
 // DB username, pw, uri from .env
