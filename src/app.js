@@ -31,10 +31,7 @@ app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.post("/test", (req, res) => {
   const { title, content, author } = req.body;
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://goweb-front.vercel.app/"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   // Request methods you wish to allow
   res.setHeader(
