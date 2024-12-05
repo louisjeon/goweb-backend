@@ -24,6 +24,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Preflight 요청 처리
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://goweb-front.vercel.app");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -61,10 +70,14 @@ app.use("/comments", commentRoutes); // 댓글 라우트 추가
 
 // 게시글 불러오기
 app.get("/board", async (req, res) => {
-  const db = (await connectDB).db("test")
-  let result = await db.collection('comment').find({ postId : req.query.id }).sort({ createdAt: -1 }).toArray()
-  res.status(200).json(result)
-})
+  const db = (await connectDB).db("test");
+  let result = await db
+    .collection("comment")
+    .find({ postId: req.query.id })
+    .sort({ createdAt: -1 })
+    .toArray();
+  res.status(200).json(result);
+});
 
 // 404 에러 처리
 app.use((req, res, next) => {
