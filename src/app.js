@@ -22,7 +22,7 @@ const corsOptions = {
 
 // CORS 미들웨어 설정 (한 번만 적용)
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Preflight 요청 처리
+app.options("*", cors()); // Preflight 요청 처리
 
 // Middleware
 app.use(express.json());
