@@ -1,4 +1,5 @@
 require("dotenv").config(); // 환경 변수 로드
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -57,6 +58,13 @@ app.use("/posts", postRoutes); // 게시글 라우트 추가
 // Map 관련 라우트 연결
 app.use("/bikemap", mapRoutes);
 app.use("/comments", commentRoutes); // 댓글 라우트 추가
+
+// 게시글 불러오기
+app.get("/board", async (req, res) => {
+  const db = (await connectDB).db("test")
+  let result = await db.collection('comment').find({ postId : req.query.id }).sort({ createdAt: -1 }).toArray()
+  res.status(200).json(result)
+})
 
 // 404 에러 처리
 app.use((req, res, next) => {
