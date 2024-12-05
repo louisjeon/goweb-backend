@@ -15,7 +15,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://goweb-front.vercel.app",
-];
+]; // 허용할 출처
 
 // CORS 설정
 const corsOptions = {
@@ -25,15 +25,15 @@ const corsOptions = {
     } else {
       callback(new Error("Not allowed by CORS"));
     }
-  }, // 허용할 출처
+  },
   methods: "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS", // 허용할 HTTP 메서드
+  preflightContinue: false,
   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
 };
 
 // CORS 미들웨어 설정 (한 번만 적용)
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Preflight 요청 처리
-app.options("/posts", cors());
 
 // Middleware
 app.use(express.json());
