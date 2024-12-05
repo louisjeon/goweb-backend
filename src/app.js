@@ -15,6 +15,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://goweb-front.vercel.app",
+  "https://goweb-back.vercel.app",
 ]; // 허용할 출처
 
 // CORS 설정
