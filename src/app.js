@@ -45,7 +45,7 @@ app.post("/test", (req, res) => {
   // Request headers you wish to allow
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild"
+    "X-PINGOTHER, Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild"
   );
   res.status(201);
 });
