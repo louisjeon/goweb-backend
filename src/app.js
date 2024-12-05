@@ -13,29 +13,17 @@ const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트
 
 const app = express();
 
-// // CORS 설정
-// const corsOptions = {
-//   origin: ["http://localhost:3000", "https://goweb-front.vercel.app"], // 허용할 출처
-//   methods: "GET,POST,PUT,DELETE,OPTIONS", // 허용할 HTTP 메서드
-//   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
-// };
+// CORS 설정
+const corsOptions = {
+  credentials: true,
+  origin: ["http://localhost:3000", "https://goweb-front.vercel.app"], // 허용할 출처
+  methods: "GET,POST,PUT,DELETE,OPTIONS", // 허용할 HTTP 메서드
+  allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
+};
 
-// // CORS 미들웨어 설정 (한 번만 적용)
-// app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions)); // Preflight 요청 처리
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+// CORS 미들웨어 설정 (한 번만 적용)
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Preflight 요청 처리
 
 // Middleware
 app.use(express.json());
