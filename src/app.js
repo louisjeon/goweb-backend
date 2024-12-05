@@ -29,9 +29,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
 
-app.options("*", (req, res) => {
-  res.status(200).send("Preflight request allowed");
-});
 app.post("/test", (req, res) => {
   const { title, content, author } = req.body;
   res.setHeader("Access-Control-Allow-Origin", "*");
