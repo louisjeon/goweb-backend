@@ -22,13 +22,16 @@ const corsOptions = {
 
 // CORS 미들웨어 설정 (한 번만 적용)
 app.use(cors(corsOptions));
-app.options("*", cors()); // Preflight 요청 처리
+app.options("*", cors(corsOptions)); // Preflight 요청 처리
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
 
+app.options("*", (req, res) => {
+  res.status(200).send("Preflight request allowed");
+});
 app.post("/test", (req, res) => {
   const { title, content, author } = req.body;
   res.setHeader("Access-Control-Allow-Origin", "*");
