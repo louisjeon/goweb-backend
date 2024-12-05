@@ -5,6 +5,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 const User = require("./models/users.model");
+const mapRoutes = require("./routes/map.routes");
 const postRoutes = require("./routes/post.routes"); // 게시글 라우트
 
 const app = express();
@@ -56,6 +57,8 @@ app.post("/signup", async (req, res) => {
 });
 
 app.use("/posts", postRoutes); // 게시글 라우트 추가
+// Map 관련 라우트 연결
+app.use("/bikemap", mapRoutes);
 
 // 404 에러 처리
 app.use((req, res, next) => {
