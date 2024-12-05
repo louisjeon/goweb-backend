@@ -9,7 +9,6 @@ exports.createPost = async (req, res) => {
     res.status(201).json(post);
   } catch (error) {
     console.error("Error creating post:", error.message); // 에러 메시지만 출력
-    res.setHeader("Access-Control-Allow-Origin", "*");
     res.status(400).json({ error: "Failed to create post" });
   }
 };
