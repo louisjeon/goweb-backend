@@ -44,6 +44,9 @@ app.post("/test", (req, res) => {
     "Access-Control-Allow-Headers",
     "X-PINGOTHER, Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild"
   );
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
   res.status(201);
 });
 
