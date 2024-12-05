@@ -12,10 +12,20 @@ const postRoutes = require("./routes/post.routes"); // 게시글 라우트
 const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://goweb-front.vercel.app",
+];
 
 // CORS 설정
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://goweb-front.vercel.app"], // 허용할 출처
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }, // 허용할 출처
   methods: "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS", // 허용할 HTTP 메서드
   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
 };
@@ -28,27 +38,6 @@ app.options("*", cors(corsOptions)); // Preflight 요청 처리
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
-
-app.post("/test", (req, res) => {
-  const { title, content, author } = req.body;
-  res.setHeader("Access-Control-Allow-Origin", "*");
-
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-PINGOTHER, Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild"
-  );
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  res.status(201);
-});
 
 // DB username, pw, uri from .env
 const username = process.env.DB_USERNAME;
