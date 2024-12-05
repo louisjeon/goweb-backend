@@ -29,6 +29,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
 
+app.post("/test", (req, res) => {
+  const { title, content, author } = req.body;
+  res.status(201);
+});
+
 // DB username, pw, uri from .env
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PW;
