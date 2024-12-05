@@ -6,17 +6,24 @@ const mongoose = require("mongoose");
 
 const User = require("./models/users.model");
 const mapRoutes = require("./routes/map.routes");
+const userRoutes = require("./routes/user.routes"); // 유저 라우트
 const postRoutes = require("./routes/post.routes"); // 게시글 라우트
+const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트
 
 const app = express();
 
-// Middleware
+// CORS 설정
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://goweb-front.vercel.app"], // 허용할 출처
+  methods: "GET,POST,PUT,DELETE,OPTIONS", // 허용할 HTTP 메서드
+  allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
+};
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+// CORS 미들웨어 설정 (한 번만 적용)
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Preflight 요청 처리
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
@@ -26,7 +33,7 @@ const username = process.env.DB_USERNAME;
 const password = process.env.DB_PW;
 const baseUri = process.env.SERVER_URI;
 
-// connet DB
+// MongoDB 연결
 const uri = baseUri
   .replace("<username>", username)
   .replace("<password>", password);
@@ -45,20 +52,11 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the API!" });
 });
 
-app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
-  try {
-    await user.save();
-    res.status(200).json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ success: false, error: "Signup failed" });
-  }
-});
-
+app.use("/users", userRoutes); // 유저 라우트 추가
 app.use("/posts", postRoutes); // 게시글 라우트 추가
 // Map 관련 라우트 연결
 app.use("/bikemap", mapRoutes);
+app.use("/comments", commentRoutes); // 댓글 라우트 추가
 
 // 404 에러 처리
 app.use((req, res, next) => {
