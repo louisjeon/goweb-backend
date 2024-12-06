@@ -15,7 +15,6 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://goweb-front.vercel.app",
-  "https://goweb-back.vercel.app",
 ]; // 허용할 출처
 
 // CORS 설정
@@ -28,7 +27,6 @@ const corsOptions = {
     }
   },
   methods: "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS", // 허용할 HTTP 메서드
-  preflightContinue: false,
   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
 };
 
@@ -66,6 +64,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes); // 유저 라우트 추가
+
+app.options("/posts", cors());
 app.use("/posts", postRoutes); // 게시글 라우트 추가
 // Map 관련 라우트 연결
 app.use("/bikemap", mapRoutes);
