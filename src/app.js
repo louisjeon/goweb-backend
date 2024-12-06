@@ -64,8 +64,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes); // 유저 라우트 추가
-
-app.options("/posts", cors());
 app.use("/posts", postRoutes); // 게시글 라우트 추가
 // Map 관련 라우트 연결
 app.use("/bikemap", mapRoutes);
