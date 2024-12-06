@@ -30,14 +30,14 @@ const corsOptions = {
   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
 };
 
-// CORS 미들웨어 설정 (한 번만 적용)
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Preflight 요청 처리
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/static", express.static(path.join(__dirname, "public")));
+
+// CORS 미들웨어 설정 (한 번만 적용)
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Preflight 요청 처리
 
 // DB username, pw, uri from .env
 const username = process.env.DB_USERNAME;
