@@ -2,11 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/post.controller");
-const cors = require("cors");
 
 // 게시글 CRUD 라우트
-router.use(cors());
-router.options("*", cors());
 router.post("/", postController.createPost); // 게시글 생성
 router.get("/", postController.getAllPosts); // 모든 게시글 조회
 router.get("/:id", postController.getPostById); // 특정 게시글 조회
