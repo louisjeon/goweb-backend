@@ -5,6 +5,10 @@ const postController = require("../controllers/post.controller");
 
 // 게시글 CRUD 라우트
 const cors = require("cors");
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://goweb-front.vercel.app",
+]; // 허용할 출처
 const corsOptions = {
   origin: (origin, callback) => {
     if (allowedOrigins.includes(origin)) {
