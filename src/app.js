@@ -6,17 +6,58 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 const User = require("./models/users.model");
+const passport = require("passport"); // 패스포트
+const cookieSession = require("cookie-session");
+const jwt = require("jsonwebtoken");
 const mapRoutes = require("./routes/map.routes");
 const userRoutes = require("./routes/user.routes"); // 유저 라우트
 const postRoutes = require("./routes/post.routes"); // 게시글 라우트
 const commentRoutes = require("./routes/comment.routes"); // 댓글 라우트
-
 const app = express();
+const cookieEncryptionKey = "aaaa";
+require("dotenv").config();
+
+app.use(
+  cookieSession({
+    name: "cookie-session-name",
+    keys: [cookieEncryptionKey],
+  })
+);
+
+// register regenerate & save after the cookieSession middleware initialization
+app.use(function (request, response, next) {
+  if (request.session && !request.session.regenerate) {
+    request.session.regenerate = (cb) => {
+      cb();
+    };
+  }
+  if (request.session && !request.session.save) {
+    request.session.save = (cb) => {
+      cb();
+    };
+  }
+  next();
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/passport");
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://goweb-front.vercel.app",
+]; // 허용할 출처
 
 // CORS 설정
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://goweb-front.vercel.app"], // 허용할 출처
-  methods: "GET,POST,PUT,DELETE,OPTIONS", // 허용할 HTTP 메서드
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS", // 허용할 HTTP 메서드
   allowedHeaders: "Content-Type,Authorization", // 허용할 헤더
 };
 

@@ -41,3 +41,48 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch user", details: err });
   }
 };
+
+// 로그인
+exports.login = async (req, res, next) => {
+  passport.authenticate("local", async (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      return res.json({ msg: info });
+    }
+
+    req.logIn(user, async (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      const accessToken = jwt.sign(
+        {
+          email: user.email,
+        },
+        process.env.JWT_KEY,
+        { expiresIn: "15s", issuer: "weather", subject: "user_info" }
+      );
+
+      const refreshToken = jwt.sign({}, process.env.JWT_KEY, {
+        expiresIn: "1d",
+        issuer: "weather",
+        subject: "user_info",
+      });
+
+      user.token = refreshToken;
+      user.save();
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      return res.status(200).json({
+        success: true,
+        accessToken,
+      });
+    });
+  })(req, res, next);
+};
