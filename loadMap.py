@@ -9,7 +9,7 @@ load_dotenv()
 db_user = os.getenv('DB_USERNAME')
 db_pw = os.getenv('DB_PW')
 print(db_user, db_pw)
-uri = f'mongodb+srv://hjs123:qwer1234@cluster0.ymcer3e.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+uri = f'mongodb+srv://{db_user}:{db_pw}@goweb.8ynue.mongodb.net/?retryWrites=true&w=majority&appName=goweb'
 client = MongoClient(uri)
 db = client["test"]  # 데이터베이스 이름
 collection = db["map"]  # 컬렉션 이름
