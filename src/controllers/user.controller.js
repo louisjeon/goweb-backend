@@ -1,4 +1,6 @@
 const User = require("../models/users.model");
+const passport = require("passport"); // 패스포트
+const jwt = require("jsonwebtoken");
 
 // 회원가입 (User 생성)
 exports.signup = async (req, res) => {
@@ -51,7 +53,7 @@ exports.login = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.json({ msg: info });
+      return res.status(400).json({ msg: info });
     }
 
     req.logIn(user, async (err) => {
@@ -73,15 +75,17 @@ exports.login = async (req, res, next) => {
         subject: "user_info",
       });
 
-      user.token = refreshToken;
-      user.save();
+      // user.token = refreshToken;
+      // user.save();
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+      // res.cookie("refreshToken", refreshToken, {
+      //   httpOnly: true,
+      //   maxAge: 24 * 60 * 60 * 1000,
+      // });
+
       return res.status(200).json({
         success: true,
+        user: { _id: user._id, email: user.email },
         accessToken,
       });
     });
