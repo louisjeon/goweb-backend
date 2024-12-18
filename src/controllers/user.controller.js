@@ -2,6 +2,7 @@ const User = require("../models/users.model");
 
 // 회원가입 (User 생성)
 exports.signup = async (req, res) => {
+  req.body.token = "";
   const user = new User(req.body);
 
   try {
